@@ -1,19 +1,25 @@
 import React from 'react'
+import { deleteTodos, toggleTodo } from '../redux/modules/todo';
+import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 
-
-const Todoitem = ({ onRemove, setTodoList, todoList, item }) => {
+const Todoitem = ({ item }) => {
     const { id, } = item;
+    const dispatch = useDispatch()
 
     const toggle = (id) => {
-        setTodoList(todoList.map((item) => {
-            return item.id === id ? { ...item, isDone: !item.isDone } : item
-        }))
+        dispatch(toggleTodo(id))
     }
+    const onRemove = id => {
+        dispatch(deleteTodos(id))
+    }
+
 
     return (
         <div>
 
             <div className='todo-Item'>
+                <Link to={`/detail/${item.id}`}>상세페이지</Link>
                 <div className='item-Title'>{item.title}</div>
                 <div className='item-Body'>{item.body}</div>
                 <div className='item-Btn-Header'>
@@ -24,7 +30,7 @@ const Todoitem = ({ onRemove, setTodoList, todoList, item }) => {
                 </div>
             </div>
 
-        </div>
+        </div >
     )
 }
 
